@@ -3,66 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AI Disaster Resource Optimizer</title>
 
 <style>
+
 body{
-font-family: Arial;
-background:#f4f6f8;
-text-align:center;
+font-family:Arial;
+background:#eef2f7;
 margin:0;
-padding:0;
+text-align:center;
 }
 
 header{
-background:#1e88e5;
+background:#0d47a1;
 color:white;
 padding:20px;
-font-size:28px;
+font-size:30px;
 }
 
 .container{
-margin-top:40px;
+margin-top:30px;
 }
 
-input,select{
-padding:10px;
+select,input{
+padding:12px;
 margin:10px;
-width:250px;
+width:260px;
+font-size:16px;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
 button{
-padding:12px 25px;
-background:#1e88e5;
+padding:12px 30px;
+background:#0d47a1;
 color:white;
 border:none;
+font-size:18px;
 cursor:pointer;
-font-size:16px;
+border-radius:6px;
 }
 
-.result{
-margin-top:30px;
-font-size:20px;
-color:#333;
+button:hover{
+background:#08306b;
 }
+
+.dashboard{
+margin-top:30px;
+}
+
+.card{
+display:inline-block;
+background:white;
+padding:20px;
+margin:10px;
+border-radius:10px;
+box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+width:180px;
+font-size:18px;
+}
+
+.summary{
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+display:inline-block;
+box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+}
+
+.map{
+margin-top:40px;
+}
+
 </style>
+
 </head>
 
 <body>
 
 <header>
-AI Disaster Resource Optimizer
+🚨 AI Disaster Resource Optimizer
 </header>
 
 <div class="container">
 
-<h2>Disaster Resource Prediction</h2>
+<h2>Smart Disaster Relief Planning</h2>
 
 <select id="disaster">
-<option value="Flood">Flood</option>
-<option value="Earthquake">Earthquake</option>
-<option value="Cyclone">Cyclone</option>
-<option value="Fire">Fire</option>
+
+<option>Flood</option>
+<option>Earthquake</option>
+<option>Cyclone</option>
+<option>Wildfire</option>
+<option>Landslide</option>
+<option>Tsunami</option>
+<option>Drought</option>
+<option>Industrial Accident</option>
+<option>Heatwave</option>
+<option>Pandemic</option>
+
+</select>
+
+<br>
+
+<select id="severity">
+
+<option value="1">Low Severity</option>
+<option value="2">Medium Severity</option>
+<option value="3">High Severity</option>
+
 </select>
 
 <br>
@@ -71,9 +122,28 @@ AI Disaster Resource Optimizer
 
 <br>
 
-<button onclick="predict()">Predict Resources</button>
+<input type="text" id="location" placeholder="Location">
 
-<div class="result" id="output"></div>
+<br>
+
+<button onclick="predict()">Analyze Disaster</button>
+
+<div class="summary" id="summary"></div>
+
+<div class="dashboard" id="dashboard"></div>
+
+</div>
+
+<div class="map">
+
+<iframe
+id="mapFrame"
+width="80%"
+height="400"
+frameborder="0"
+style="border:0"
+src="https://maps.google.com/maps?q=India&t=&z=5&ie=UTF8&iwloc=&output=embed">
+</iframe>
 
 </div>
 
@@ -82,31 +152,56 @@ AI Disaster Resource Optimizer
 function predict(){
 
 let disaster=document.getElementById("disaster").value;
-let people=document.getElementById("people").value;
+let severity=parseInt(document.getElementById("severity").value);
+let people=parseInt(document.getElementById("people").value);
+let location=document.getElementById("location").value;
 
-if(people==""){
-alert("Enter affected people");
+if(!people || location==""){
+alert("Please fill all fields");
 return;
 }
 
-let food=people*2;
-let water=people*3;
-let medical=Math.ceil(people/10);
+let food=people*2*severity;
+let water=people*3*severity;
+let medical=Math.ceil(people/10)*severity;
+let shelters=Math.ceil(people/25);
+let rescue=Math.ceil(people/50)*severity;
+let volunteers=Math.ceil(people/20);
 
-document.getElementById("output").innerHTML=
+document.getElementById("summary").innerHTML=
+
 `
-Disaster Type: ${disaster} <br><br>
+<h3>📍 ${location}</h3>
 
-Food Packets Needed: ${food} <br>
-
-Water Bottles Needed: ${water} <br>
-
-Medical Kits Needed: ${medical}
+Disaster: <b>${disaster}</b><br>
+Affected People: <b>${people}</b><br>
+Severity Level: <b>${severity}</b>
 `;
+
+document.getElementById("dashboard").innerHTML=
+
+`
+<div class="card">🍞<br>Food Packs<br><b>${food}</b></div>
+
+<div class="card">💧<br>Water Bottles<br><b>${water}</b></div>
+
+<div class="card">🏥<br>Medical Kits<br><b>${medical}</b></div>
+
+<div class="card">🏠<br>Shelters<br><b>${shelters}</b></div>
+
+<div class="card">🚑<br>Rescue Teams<br><b>${rescue}</b></div>
+
+<div class="card">👷<br>Volunteers<br><b>${volunteers}</b></div>
+`;
+
+document.getElementById("mapFrame").src=
+
+`https://maps.google.com/maps?q=${location}&t=&z=8&ie=UTF8&iwloc=&output=embed`;
 
 }
 
 </script>
 
 </body>
+
 </html>
