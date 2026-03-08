@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Disaster Resource Optimizer</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f4f6f8;
+text-align:center;
+margin:0;
+padding:0;
+}
+
+header{
+background:#1e88e5;
+color:white;
+padding:20px;
+font-size:28px;
+}
+
+.container{
+margin-top:40px;
+}
+
+input,select{
+padding:10px;
+margin:10px;
+width:250px;
+}
+
+button{
+padding:12px 25px;
+background:#1e88e5;
+color:white;
+border:none;
+cursor:pointer;
+font-size:16px;
+}
+
+.result{
+margin-top:30px;
+font-size:20px;
+color:#333;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+AI Disaster Resource Optimizer
+</header>
+
+<div class="container">
+
+<h2>Disaster Resource Prediction</h2>
+
+<select id="disaster">
+<option value="Flood">Flood</option>
+<option value="Earthquake">Earthquake</option>
+<option value="Cyclone">Cyclone</option>
+<option value="Fire">Fire</option>
+</select>
+
+<br>
+
+<input type="number" id="people" placeholder="Affected People">
+
+<br>
+
+<button onclick="predict()">Predict Resources</button>
+
+<div class="result" id="output"></div>
+
+</div>
+
+<script>
+
+function predict(){
+
+let disaster=document.getElementById("disaster").value;
+let people=document.getElementById("people").value;
+
+if(people==""){
+alert("Enter affected people");
+return;
+}
+
+let food=people*2;
+let water=people*3;
+let medical=Math.ceil(people/10);
+
+document.getElementById("output").innerHTML=
+`
+Disaster Type: ${disaster} <br><br>
+
+Food Packets Needed: ${food} <br>
+
+Water Bottles Needed: ${water} <br>
+
+Medical Kits Needed: ${medical}
+`;
+
+}
+
+</script>
+
+</body>
+</html>
