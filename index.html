@@ -99,11 +99,27 @@ margin-top:40px;
 
 <header>
 🚨 AI Disaster Resource Optimizer
+<br>
+<select id="language" onchange="change language()">
+<option value="en">English</option>
+<option>value="hi">हिन्दी</option>
+<option>value="mr">मराठी</option>
+</select>
 </header>
+<div style="background:#fff;padding:15px;margin:20px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1);">
+
+<h3>🌍 Disaster Monitoring Status</h3>
+
+<p>System Status: <span style="color:green;font-weight:bold;">Active</span></p>
+
+<p>Last Data Update: <span id="time"></span></p>
+
+</div>
 
 <div class="container">
 
-<h2>Smart Disaster Relief Planning System</h2>
+<h2 id="analysisTitle">Disaster Analysis</h2>
+<h3 id="conditionsTitle">Natural Conditions</h3>
 
 <select id="disaster">
 
@@ -116,8 +132,10 @@ margin-top:40px;
 <option>Drought</option>
 <option>Heatwave</option>
 <option>Industrial Accident</option>
-<option>Pandemic</option>
-
+<option>Pandemic</option>     
+<option>Avalanche</option>
+<option>Volcanic eruption</option>
+<option>Thunder storm</option>
 </select>
 
 <br>
@@ -132,7 +150,7 @@ margin-top:40px;
 
 <br>
 
-<input type="number" id="people" placeholder="Affected People">
+<input type="number" id="people" placeholder="Affected Population">
 
 <br>
 
@@ -164,12 +182,87 @@ frameborder="0"
 style="border:0"
 src="https://maps.google.com/maps?q=India&t=&z=5&ie=UTF8&iwloc=&output=embed">
 </iframe>
+<h2>🚑 Rescue Route Optimization</h2>
+
+<input type="text" id="rescueStart" placeholder="Rescue Team Location">
+
+<input type="text" id="rescueEnd" placeholder="Disaster Location">
+
+<button onclick="findRoute()">Find Route</button>
+
+<div id="routeResult"></div>
+ <iframe
+id="routeMap"
+width="80%"
+height="400"
+src="https://maps.google.com/maps?q=India&output=embed">
+</iframe>
 
 </div>
 
 <script>
+document.getElementById("time").innerHTML=new Date().toLocaleString();
+
+function findRoute(){
+
+let start=document.getElementById("rescueStart").value;
+let end=document.getElementById("rescueEnd").value;
+
+if(start=="" || end==""){
+alert("Enter both locations");
+return;
+}
+
+document.getElementById("routeMap").src=
+"https://www.google.com/maps?q="+start+" to "+end+"&output=embed";
+
+document.getElementById("routeResult").innerHTML=
+"Fastest route from "+start+" to "+end;
+
+}
 
 let chart;
+function changeLanguage(){
+
+let lang=document.getElementById("language").value;
+
+if(lang==="hi"){
+
+document.getElementById("analysisTitle").innerText="आपदा विश्लेषण";
+
+document.getElementById("conditionsTitle").innerText="प्राकृतिक स्थितियाँ";
+
+document.getElementById("people").placeholder="प्रभावित जनसंख्या";
+
+document.getElementById("location").placeholder="स्थान";
+
+}
+
+else if(lang==="mr"){
+
+document.getElementById("analysisTitle").innerText="आपत्ती विश्लेषण";
+
+document.getElementById("conditionsTitle").innerText="नैसर्गिक परिस्थिती";
+
+document.getElementById("people").placeholder="प्रभावित लोकसंख्या";
+
+document.getElementById("location").placeholder="स्थान";
+
+}
+
+else{
+
+document.getElementById("analysisTitle").innerText="Disaster Analysis";
+
+document.getElementById("conditionsTitle").innerText="Natural Conditions";
+
+document.getElementById("people").placeholder="Affected Population";
+
+document.getElementById("location").placeholder="Location";
+
+}
+
+}
 
 function startVoice(){
 
@@ -186,6 +279,25 @@ document.getElementById("location").value=speech;
 };
 
 recognition.start();
+
+}
+document.getElementById("time").innerHTML=new Date().toLocaleString();
+
+function findRoute(){
+
+let start=document.getElementById("rescueStart").value;
+let end=document.getElementById("rescueEnd").value;
+
+if(start=="" || end==""){
+alert("Enter both locations");
+return;
+}
+
+document.getElementById("routeMap").src=
+"https://www.google.com/maps?q="+start+" to "+end+"&output=embed";
+
+document.getElementById("routeResult").innerHTML=
+"Fastest route from "+start+" to "+end;
 
 }
 
@@ -211,7 +323,7 @@ let volunteers=Math.ceil(people/20);
 document.getElementById("summary").innerHTML=
 
 `
-<h3>📍 ${location}</h3>
+<h4>📍 ${location}</h4>
 
 Disaster: <b>${disaster}</b><br>
 
@@ -234,6 +346,20 @@ document.getElementById("dashboard").innerHTML=
 <div class="card">🚑<br>Rescue Teams<br><b>${rescue}</b></div>
 
 <div class="card">👷<br>Volunteers<br><b>${volunteers}</b></div>
+<section style="margin-top:30px">
+
+<h2>📦 Resource Inventory</h2>
+
+<div class="cards">
+
+<div class="card">🚑 Ambulances<br>24</div>
+<div class="card">🚒 Fire Trucks<br>12</div>
+<div class="card">🏥 Medical Teams<br>18</div>
+<div class="card">🚁 Helicopters<br>6</div>
+
+</div>
+
+</section>
 `;
 
 document.getElementById("mapFrame").src=
