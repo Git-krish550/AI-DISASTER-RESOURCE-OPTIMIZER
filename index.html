@@ -11,7 +11,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
- <style>
 
 body{
 font-family:Arial;
@@ -93,7 +92,6 @@ margin-top:40px;
 }
 
 </style>
-</style>
 
 </head>
 
@@ -102,7 +100,7 @@ margin-top:40px;
 <header>
 🚨 AI Disaster Resource Optimizer
 <br>
-<select id="language" onchange="changelanguage()">
+<select id="language" onchange="change language()">
 <option value="en">English</option>
 <option>value="hi">हिन्दी</option>
 <option>value="mr">मराठी</option>
@@ -358,11 +356,17 @@ document.getElementById("dashboard").innerHTML=
 <div class="card">👷<br>Volunteers<br><b>${volunteers}</b></div>
 <section style="margin-top:30px">
 
+<h2>📦 Resource Inventory</h2>
+
+<div class="cards">
+
 <h2 class="inventoryTitle">📦 AI Resource Prediction</h2>
 <div class="card">🚑 Ambulances<br><b>${ambulances}</b></div>
 <div class="card">🚒 Fire Trucks<br><b>${firetrucks}</b></div>
 <div class="card">🏥 Medical Teams<br><b>${medicalteams}</b></div>
 <div class="card">🚁 Helicopters<br><b>${helpcopters}</b></div>
+</div>
+
 </div>
 
 </section>
@@ -375,13 +379,7 @@ document.getElementById("mapFrame").src=
 createChart(food,water,medical,shelters,rescue,volunteers);
 
 }
-let alert="Low Risk";
 
-if(severity==2) alert="Moderate Risk";
-if(severity==3) alert="Critical Emergency";
-
-document.getElementById("summary").innerHTML+=
-`<br><br>⚠️ Risk Level: <b>${alert}</b>`;
 function createChart(food,water,medical,shelters,rescue,volunteers){
 
 let ctx=document.getElementById("resourceChart");
