@@ -335,15 +335,23 @@ Severity Level: <b>${severity}</b>
 document.getElementById("dashboard").innerHTML=
 
 `
-<div class="card">🍞<br>Food<br><b>${food}</b></div>
+<div class="card">🍞<br>Food Packets<br><b>${food}</b>
+<div class="unit">packets</div>
+</div>
 
-<div class="card">💧<br>Water<br><b>${water}</b></div>
+<div class="card">💧<br>Water Bottles<br><b>${water}</b>
+<div class="unit">Liters</div>                        
+</div>
 
 <div class="card">🏥<br>Medical Kits<br><b>${medical}</b></div>
 
-<div class="card">🏠<br>Shelters<br><b>${shelters}</b></div>
+<div class="card">🏠<br>Shelters<br><b>${shelters}</b>
+<div class="unit">camps needed</div>
+</div>
 
-<div class="card">🚑<br>Rescue Teams<br><b>${rescue}</b></div>
+<div class="card">🚑<br>Rescue Teams<br><b>${rescue}</b>
+<div class="unit">teams deployed</div>
+</div>
 
 <div class="card">👷<br>Volunteers<br><b>${volunteers}</b></div>
 <section style="margin-top:30px">
