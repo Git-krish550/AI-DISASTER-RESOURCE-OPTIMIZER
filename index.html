@@ -13,17 +13,19 @@
 <style>
 
 body{
-font-family:Arial;
-background:#f4f7fb;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(120deg,#0f2027,#203a43,#2c5364);
 margin:0;
+color:white;
 text-align:center;
 }
 
 header{
-background:linear-gradient(90deg,#0d47a1,#1976d2);
-color:white;
+background:rgba(0,0,0,0.4);
 padding:20px;
-font-size:30px;
+font-size:32px;
+font-weight:bold;
+backdrop-filter:blur(10px);
 }
 
 .container{
@@ -33,61 +35,77 @@ margin-top:30px;
 input,select{
 padding:12px;
 margin:10px;
-width:250px;
+width:260px;
 font-size:16px;
-border-radius:6px;
-border:1px solid #ccc;
+border-radius:8px;
+border:none;
+outline:none;
 }
 
 button{
 padding:12px 25px;
-background:#1976d2;
+background:#00c6ff;
 color:white;
 border:none;
 font-size:16px;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
+transition:0.3s;
 }
 
 button:hover{
-background:#0d47a1;
+background:#0072ff;
+transform:scale(1.05);
 }
 
 .voiceBtn{
-background:#ff5252;
+background:#ff416c;
 }
 
 .summary{
-background:white;
+background:rgba(255,255,255,0.1);
 padding:20px;
-border-radius:10px;
+border-radius:12px;
 display:inline-block;
 margin-top:20px;
-box-shadow:0px 4px 12px rgba(0,0,0,0.1);
+backdrop-filter:blur(10px);
 }
 
 .dashboard{
-margin-top:20px;
+margin-top:30px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
 }
 
 .card{
-display:inline-block;
-background:white;
+background:rgba(255,255,255,0.15);
 padding:20px;
-margin:10px;
-border-radius:10px;
-box-shadow:0px 3px 10px rgba(0,0,0,0.1);
-width:180px;
+margin:12px;
+border-radius:12px;
+backdrop-filter:blur(12px);
+width:190px;
 font-size:18px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
 
 .chart{
-width:60%;
+width:65%;
 margin:auto;
 margin-top:40px;
 }
 
 .map{
+margin-top:40px;
+}
+
+.inventoryTitle{
+font-size:24px;
 margin-top:40px;
 }
 
@@ -100,7 +118,7 @@ margin-top:40px;
 <header>
 🚨 AI Disaster Resource Optimizer
 <br>
-<select id="language" onchange="change language()">
+<select id="language" onchange="changelanguage()">
 <option value="en">English</option>
 <option>value="hi">हिन्दी</option>
 <option>value="mr">मराठी</option>
@@ -356,15 +374,11 @@ document.getElementById("dashboard").innerHTML=
 <div class="card">👷<br>Volunteers<br><b>${volunteers}</b></div>
 <section style="margin-top:30px">
 
-<h2>📦 Resource Inventory</h2>
-
-<div class="cards">
-
-<div class="card">🚑 Ambulances<br>24</div>
-<div class="card">🚒 Fire Trucks<br>12</div>
-<div class="card">🏥 Medical Teams<br>18</div>
-<div class="card">🚁 Helicopters<br>6</div>
-
+<h2 class="inventoryTitle">📦 AI Resource Prediction</h2>
+<div class="card">🚑 Ambulances<br><b>${ambulances}</b></div>
+<div class="card">🚒 Fire Trucks<br><b>${firetrucks}</b></div>
+<div class="card">🏥 Medical Teams<br><b>${medicalteams}</b></div>
+<div class="card">🚁 Helicopters<br><b>${helpcopters}</b></div>
 </div>
 
 </section>
@@ -377,7 +391,13 @@ document.getElementById("mapFrame").src=
 createChart(food,water,medical,shelters,rescue,volunteers);
 
 }
+let alert="Low Risk";
 
+if(severity==2) alert="Moderate Risk";
+if(severity==3) alert="Critical Emergency";
+
+document.getElementById("summary").innerHTML+=
+`<br><br>⚠️ Risk Level: <b>${alert}</b>`;
 function createChart(food,water,medical,shelters,rescue,volunteers){
 
 let ctx=document.getElementById("resourceChart");
