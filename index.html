@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AI Disaster Resource Optimizer</title>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
 
 body{
 font-family:Arial;
-background:#eef2f7;
+background:#f4f7fb;
 margin:0;
 text-align:center;
 }
 
 header{
-background:#0d47a1;
+background:linear-gradient(90deg,#0d47a1,#1976d2);
 color:white;
 padding:20px;
 font-size:30px;
@@ -26,31 +30,44 @@ font-size:30px;
 margin-top:30px;
 }
 
-select,input{
+input,select{
 padding:12px;
 margin:10px;
-width:260px;
+width:250px;
 font-size:16px;
-border-radius:5px;
+border-radius:6px;
 border:1px solid #ccc;
 }
 
 button{
-padding:12px 30px;
-background:#0d47a1;
+padding:12px 25px;
+background:#1976d2;
 color:white;
 border:none;
-font-size:18px;
-cursor:pointer;
+font-size:16px;
 border-radius:6px;
+cursor:pointer;
 }
 
 button:hover{
-background:#08306b;
+background:#0d47a1;
+}
+
+.voiceBtn{
+background:#ff5252;
+}
+
+.summary{
+background:white;
+padding:20px;
+border-radius:10px;
+display:inline-block;
+margin-top:20px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.1);
 }
 
 .dashboard{
-margin-top:30px;
+margin-top:20px;
 }
 
 .card{
@@ -64,13 +81,10 @@ width:180px;
 font-size:18px;
 }
 
-.summary{
-margin-top:20px;
-background:white;
-padding:20px;
-border-radius:10px;
-display:inline-block;
-box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+.chart{
+width:60%;
+margin:auto;
+margin-top:40px;
 }
 
 .map{
@@ -89,7 +103,7 @@ margin-top:40px;
 
 <div class="container">
 
-<h2>Smart Disaster Relief Planning</h2>
+<h2>Smart Disaster Relief Planning System</h2>
 
 <select id="disaster">
 
@@ -100,8 +114,8 @@ margin-top:40px;
 <option>Landslide</option>
 <option>Tsunami</option>
 <option>Drought</option>
-<option>Industrial Accident</option>
 <option>Heatwave</option>
+<option>Industrial Accident</option>
 <option>Pandemic</option>
 
 </select>
@@ -124,6 +138,8 @@ margin-top:40px;
 
 <input type="text" id="location" placeholder="Location">
 
+<button class="voiceBtn" onclick="startVoice()">🎤 Speak Location</button>
+
 <br>
 
 <button onclick="predict()">Analyze Disaster</button>
@@ -132,6 +148,10 @@ margin-top:40px;
 
 <div class="dashboard" id="dashboard"></div>
 
+</div>
+
+<div class="chart">
+<canvas id="resourceChart"></canvas>
 </div>
 
 <div class="map">
@@ -148,6 +168,26 @@ src="https://maps.google.com/maps?q=India&t=&z=5&ie=UTF8&iwloc=&output=embed">
 </div>
 
 <script>
+
+let chart;
+
+function startVoice(){
+
+let recognition = new webkitSpeechRecognition();
+
+recognition.lang="en-IN";
+
+recognition.onresult=function(event){
+
+let speech=event.results[0][0].transcript;
+
+document.getElementById("location").value=speech;
+
+};
+
+recognition.start();
+
+}
 
 function predict(){
 
@@ -174,16 +214,18 @@ document.getElementById("summary").innerHTML=
 <h3>📍 ${location}</h3>
 
 Disaster: <b>${disaster}</b><br>
+
 Affected People: <b>${people}</b><br>
+
 Severity Level: <b>${severity}</b>
 `;
 
 document.getElementById("dashboard").innerHTML=
 
 `
-<div class="card">🍞<br>Food Packs<br><b>${food}</b></div>
+<div class="card">🍞<br>Food<br><b>${food}</b></div>
 
-<div class="card">💧<br>Water Bottles<br><b>${water}</b></div>
+<div class="card">💧<br>Water<br><b>${water}</b></div>
 
 <div class="card">🏥<br>Medical Kits<br><b>${medical}</b></div>
 
@@ -197,6 +239,37 @@ document.getElementById("dashboard").innerHTML=
 document.getElementById("mapFrame").src=
 
 `https://maps.google.com/maps?q=${location}&t=&z=8&ie=UTF8&iwloc=&output=embed`;
+
+createChart(food,water,medical,shelters,rescue,volunteers);
+
+}
+
+function createChart(food,water,medical,shelters,rescue,volunteers){
+
+let ctx=document.getElementById("resourceChart");
+
+if(chart){
+chart.destroy();
+}
+
+chart=new Chart(ctx,{
+
+type:'bar',
+
+data:{
+labels:["Food","Water","Medical","Shelters","Rescue","Volunteers"],
+
+datasets:[{
+
+label:"Required Resources",
+
+data:[food,water,medical,shelters,rescue,volunteers]
+
+}]
+
+}
+
+});
 
 }
 
