@@ -1,51 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
+<!DOCTYPE html><html lang="en"><head> 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AI Disaster Resource Optimizer</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>
 
-<title>AI Disaster Resource Optimizer</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial;
+}
 
 body{
-font-family:Arial;
+background:#ffffff;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.app{
+width:390px;
 background:#f4f7fb;
-margin:0;
-text-align:center;
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 20px 50px rgba(0,0,0,0.2);
 }
 
 header{
 background:linear-gradient(90deg,#0d47a1,#1976d2);
-color:white;
+color:rgb(252, 252, 252);
 padding:20px;
-font-size:30px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+header select{
+margin-top:10px;
+padding:6px;
+border-radius:6px;
+border:none;
 }
 
 .container{
-margin-top:30px;
+padding:20px;
+text-align:center;
 }
 
 input,select{
+width:90%;
 padding:12px;
-margin:10px;
-width:250px;
-font-size:16px;
-border-radius:6px;
-border:1px solid #ccc;
+margin:8px;
+border-radius:8px;
+border:1px solid #a12020;
+font-size:15px;
 }
 
 button{
-padding:12px 25px;
+width:90%;
+padding:12px;
+margin-top:10px;
 background:#1976d2;
 color:white;
 border:none;
+border-radius:8px;
 font-size:16px;
-border-radius:6px;
 cursor:pointer;
 }
 
@@ -58,71 +76,79 @@ background:#ff5252;
 }
 
 .summary{
-background:white;
-padding:20px;
-border-radius:10px;
-display:inline-block;
-margin-top:20px;
-box-shadow:0px 4px 12px rgba(0,0,0,0.1);
-}
-
-.dashboard{
-margin-top:20px;
+background:rgb(255, 255, 255);
+padding:15px;
+border-radius:12px;
+margin-top:15px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
 .card{
+background:rgb(245, 245, 245);
+border-radius:12px;
+padding:15px;
+margin:8px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 display:inline-block;
-background:white;
-padding:20px;
-margin:10px;
-border-radius:10px;
-box-shadow:0px 3px 10px rgba(0,0,0,0.1);
-width:180px;
-font-size:18px;
+width:140px;
+font-size:14px;
+}
+
+.dashboard{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
 }
 
 .chart{
-width:60%;
-margin:auto;
-margin-top:40px;
+padding:20px;
 }
 
-.map{
-margin-top:40px;
+.map iframe{
+border-radius:10px;
+margin-top:15px;
 }
 
-</style>
+.bottom-nav{
+position:fixed;
+bottom:0;
+width:390px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -3px 10px rgba(0,0,0,0.1);
+}
 
-</head>
+.nav-item{
+text-align:center;
+font-size:13px;
+}
 
-<body>
+@media(max-width:420px){
 
-<header>
-🚨 AI Disaster Resource Optimizer
-<br>
-<select id="language" onchange="change language()">
+.app{
+width:100%;
+height:100vh;
+border-radius:0;
+}
+
+.bottom-nav{
+width:100%;
+}
+
+}
+
+</style></head><body><div class="app"><header>
+🚨 Disaster Optimizer<br><select id="language" onchange="changeLanguage()">
 <option value="en">English</option>
-<option>value="hi">हिन्दी</option>
-<option>value="mr">मराठी</option>
-</select>
-</header>
-<div style="background:#fff;padding:15px;margin:20px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1);">
-
-<h3>🌍 Disaster Monitoring Status</h3>
-
-<p>System Status: <span style="color:green;font-weight:bold;">Active</span></p>
-
-<p>Last Data Update: <span id="time"></span></p>
-
-</div>
-
-<div class="container">
-
-<h2 id="analysisTitle">Disaster Analysis</h2>
-<h3 id="conditionsTitle">Natural Conditions</h3>
-
-<select id="disaster">
-
+<option value="hi">हिन्दी</option>
+<option value="mr">मराठी</option>
+</select></header><div class="container"><h3>🌍 System Status: <span style="color:green">Active</span></h3>
+<p>Last Update: <span id="time"></span></p><div class="summary"><h3>📞 Emergency Contacts</h3><div class="card">🚑 Ambulance<br>102</div>
+<div class="card">🚒 Fire<br>101</div>
+<div class="card">🚓 Police<br>100</div>
+<div class="card">🆘 Disaster<br>108</div></div><h3 id="analysisTitle">Disaster Analysis</h3><select id="disaster">
 <option>Flood</option>
 <option>Earthquake</option>
 <option>Cyclone</option>
@@ -131,157 +157,98 @@ margin-top:40px;
 <option>Tsunami</option>
 <option>Drought</option>
 <option>Heatwave</option>
-<option>Industrial Accident</option>
-<option>Pandemic</option>     
-<option>Avalanche</option>
-<option>Volcanic eruption</option>
-<option>Thunder storm</option>
-</select>
-
-<br>
-
-<select id="severity">
-
+</select><select id="severity">
 <option value="1">Low Severity</option>
 <option value="2">Medium Severity</option>
 <option value="3">High Severity</option>
-
-</select>
-
-<br>
-
-<input type="number" id="people" placeholder="Affected Population">
-
-<br>
-
-<input type="text" id="location" placeholder="Location">
-
-<button class="voiceBtn" onclick="startVoice()">🎤 Speak Location</button>
-
-<br>
+</select><input type="number" id="people" placeholder="Affected Population"><input type="text" id="location" placeholder="Location"><button class="voiceBtn" onclick="startVoice()">🎤 Speak Location</button>
 
 <button onclick="predict()">Analyze Disaster</button>
 
-<div class="summary" id="summary"></div>
-
-<div class="dashboard" id="dashboard"></div>
-
+<div class="summary" id="summary"></div><div class="summary" id="risk"></div><div class="dashboard" id="dashboard"></div><div class="card" style="width:90%">
+<h3>🌦 Weather</h3>
+<p id="weather">Weather will appear here</p>
 </div>
 
 <div class="chart">
 <canvas id="resourceChart"></canvas>
 </div>
 
-<div class="map">
-
-<iframe
+</div><div class="container map"><iframe
 id="mapFrame"
-width="80%"
-height="400"
-frameborder="0"
-style="border:0"
-src="https://maps.google.com/maps?q=India&t=&z=5&ie=UTF8&iwloc=&output=embed">
-</iframe>
-<h2>🚑 Rescue Route Optimization</h2>
-
-<input type="text" id="rescueStart" placeholder="Rescue Team Location">
-
-<input type="text" id="rescueEnd" placeholder="Disaster Location">
-
-<button onclick="findRoute()">Find Route</button>
-
-<div id="routeResult"></div>
- <iframe
-id="routeMap"
-width="80%"
-height="400"
+width="100%"
+height="300"
 src="https://maps.google.com/maps?q=India&output=embed">
-</iframe>
+</iframe><h3>🚑 Rescue Route</h3><input type="text" id="rescueStart" placeholder="Rescue Team Location"><input type="text" id="rescueEnd" placeholder="Disaster Location"><button onclick="findRoute()">Find Route</button>
 
-</div>
+<div id="routeResult"></div><iframe
+id="routeMap"
+width="100%"
+height="300"
+src="https://maps.google.com/maps?q=India&output=embed">
+</iframe></div></div><div class="bottom-nav"><div class="nav-item">🏠<br>Home</div>
+<div class="nav-item">📊<br>Dashboard</div>
+<div class="nav-item">🗺<br>Map</div>
+<div class="nav-item">⚙<br>Settings</div></div><script>
 
-<script>
 document.getElementById("time").innerHTML=new Date().toLocaleString();
 
-function findRoute(){
-
-let start=document.getElementById("rescueStart").value;
-let end=document.getElementById("rescueEnd").value;
-
-if(start=="" || end==""){
-alert("Enter both locations");
-return;
-}
-
-document.getElementById("routeMap").src=
-"https://www.google.com/maps?q="+start+" to "+end+"&output=embed";
-
-document.getElementById("routeResult").innerHTML=
-"Fastest route from "+start+" to "+end;
-
-}
-
 let chart;
+
 function changeLanguage(){
 
 let lang=document.getElementById("language").value;
 
 if(lang==="hi"){
-
 document.getElementById("analysisTitle").innerText="आपदा विश्लेषण";
-
-document.getElementById("conditionsTitle").innerText="प्राकृतिक स्थितियाँ";
-
 document.getElementById("people").placeholder="प्रभावित जनसंख्या";
-
 document.getElementById("location").placeholder="स्थान";
-
 }
 
 else if(lang==="mr"){
-
 document.getElementById("analysisTitle").innerText="आपत्ती विश्लेषण";
-
-document.getElementById("conditionsTitle").innerText="नैसर्गिक परिस्थिती";
-
 document.getElementById("people").placeholder="प्रभावित लोकसंख्या";
-
 document.getElementById("location").placeholder="स्थान";
-
 }
 
 else{
-
 document.getElementById("analysisTitle").innerText="Disaster Analysis";
-
-document.getElementById("conditionsTitle").innerText="Natural Conditions";
-
 document.getElementById("people").placeholder="Affected Population";
-
 document.getElementById("location").placeholder="Location";
-
 }
 
 }
 
 function startVoice(){
 
-let recognition = new webkitSpeechRecognition();
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+alert("Speech recognition not supported");
+return;
+}
+
+let recognition=new SpeechRecognition();
 
 recognition.lang="en-IN";
 
 recognition.onresult=function(event){
-
-let speech=event.results[0][0].transcript;
-
-document.getElementById("location").value=speech;
-
+document.getElementById("location").value=event.results[0][0].transcript;
 };
 
 recognition.start();
 
 }
-document.getElementById("time").innerHTML=new Date().toLocaleString();
+
+function getWeather(location){
+
+fetch("https://wttr.in/"+location+"?format=3")
+.then(response=>response.text())
+.then(data=>{
+document.getElementById("weather").innerHTML=data;
+});
+
+}
 
 function findRoute(){
 
@@ -294,7 +261,7 @@ return;
 }
 
 document.getElementById("routeMap").src=
-"https://www.google.com/maps?q="+start+" to "+end+"&output=embed";
+"https://maps.google.com/maps?saddr="+start+"&daddr="+end+"&output=embed";
 
 document.getElementById("routeResult").innerHTML=
 "Fastest route from "+start+" to "+end;
@@ -309,7 +276,7 @@ let people=parseInt(document.getElementById("people").value);
 let location=document.getElementById("location").value;
 
 if(!people || location==""){
-alert("Please fill all fields");
+alert("Fill all fields");
 return;
 }
 
@@ -320,55 +287,47 @@ let shelters=Math.ceil(people/25);
 let rescue=Math.ceil(people/50)*severity;
 let volunteers=Math.ceil(people/20);
 
+let ambulances=Math.ceil(people/100);
+let firetrucks=Math.ceil(people/200);
+let medicalteams=Math.ceil(people/150);
+let helicopters=Math.ceil(people/500);
+
 document.getElementById("summary").innerHTML=
-
-`
-<h4>📍 ${location}</h4>
-
+`📍 ${location}<br>
 Disaster: <b>${disaster}</b><br>
+People: <b>${people}</b>`;
 
-Affected People: <b>${people}</b><br>
+let risk="Low Risk";
 
-Severity Level: <b>${severity}</b>
-`;
+if(severity==2) risk="Medium Risk";
+if(severity==3 || people>1000) risk="High Risk";
 
-document.getElementById("dashboard").innerHTML=
+document.getElementById("risk").innerHTML="⚠ "+risk;
 
-`
-<div class="card">🍞<br>Food Packets<br><b>${food}</b>
-<div class="unit">packets</div>
-</div>
+let waterDisasters=["Flood","Cyclone","Tsunami"];
 
-<div class="card">💧<br>Water Bottles<br><b>${water}</b>
-<div class="unit">Liters</div>                        
-</div>
+let dashboardHTML=
 
-<div class="card">🏥<br>Medical Kits<br><b>${medical}</b></div>
+`<div class="card">🍞 Food packets<br>${food}</div>
+<div class="card">💧 Water<br>${water}</div>
+<div class="card">🏥 Medical kits<br>${medical}</div>
+<div class="card">🏠 Shelters<br>${shelters}</div>
+<div class="card">🚑 Rescue teams<br>${rescue}</div>
+<div class="card">👷 Volunteers<br>${volunteers}</div>
+<div class="card">🚑 Ambulances<br>${ambulances}</div>
+<div class="card">🏥 Med Teams<br>${medicalteams}</div>
+<div class="card">🚁 Helicopters<br>${helicopters}</div>`;
 
-<div class="card">🏠<br>Shelters<br><b>${shelters}</b>
-<div class="unit">camps needed</div>
-</div>
+if(!waterDisasters.includes(disaster)){
+dashboardHTML+=`<div class="card">🚒 Firetrucks<br>${firetrucks}</div>`;
+}
 
-<div class="card">🚑<br>Rescue Teams<br><b>${rescue}</b>
-<div class="unit">teams deployed</div>
-</div>
-
-<div class="card">👷<br>Volunteers<br><b>${volunteers}</b></div>
-<section style="margin-top:30px">
-
-<h2 class="inventoryTitle">📦 AI Resource Prediction</h2>
-<div class="card">🚑 Ambulances<br><b>${ambulances}</b></div>
-<div class="card">🚒 Fire Trucks<br><b>${firetrucks}</b></div>
-<div class="card">🏥 Medical Teams<br><b>${medicalteams}</b></div>
-<div class="card">🚁 Helicopters<br><b>${helpcopters}</b></div>
-</div>
-
-</section>
-`;
+document.getElementById("dashboard").innerHTML=dashboardHTML;
 
 document.getElementById("mapFrame").src=
+`https://maps.google.com/maps?q=${location}&output=embed`;
 
-`https://maps.google.com/maps?q=${location}&t=&z=8&ie=UTF8&iwloc=&output=embed`;
+getWeather(location);
 
 createChart(food,water,medical,shelters,rescue,volunteers);
 
@@ -376,35 +335,22 @@ createChart(food,water,medical,shelters,rescue,volunteers);
 
 function createChart(food,water,medical,shelters,rescue,volunteers){
 
-let ctx=document.getElementById("resourceChart");
+let ctx=document.getElementById("resourceChart").getContext("2d");
 
-if(chart){
-chart.destroy();
-}
+if(chart) chart.destroy();
 
 chart=new Chart(ctx,{
-
 type:'bar',
-
 data:{
 labels:["Food","Water","Medical","Shelters","Rescue","Volunteers"],
-
 datasets:[{
-
-label:"Required Resources",
-
+label:"Resources",
 data:[food,water,medical,shelters,rescue,volunteers]
-
 }]
-
 }
-
 });
 
 }
 
-</script>
-
-</body>
-
+</script></body>
 </html>
